@@ -1,0 +1,45 @@
+<form method="post">
+    {% csrf_token %}
+    {{ process_form.as_p }}
+    <div id="steps-container">
+        <div class="step">
+            {{ step_form.as_p }}
+        </div>
+    </div>
+    <button type="button" id="add-step">Add Step</button>
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+let stepIndex = 1;
+
+document.getElementById('add-step').addEventListener('click', function() {
+    var container = document.getElementById('steps-container');
+    var stepDiv = document.createElement('div');
+    stepDiv.className = 'step';
+    stepDiv.innerHTML = `
+        <label for="id_steps-${stepIndex}-name">Step Name:</label>
+        <input type="text" name="steps-${stepIndex}-name" id="id_steps-${stepIndex}-name">
+        <label for="id_steps-${stepIndex}-duration_value">Duration:</label>
+        <input type="number" name="steps-${stepIndex}-duration_value" id="id_steps-${stepIndex}-duration_value">
+        <select name="steps-${stepIndex}-duration_unit" id="id_steps-${stepIndex}-duration_unit">
+            <option value="seconds">Seconds</option>
+            <option value="minutes">Minutes</option>
+            <option value="days">Days</option>
+        </select>
+        <label for="id_steps-${stepIndex}-contributors">Contributors:</label>
+        <input type="text" class="contributor-input" name="steps-${stepIndex}-contributors" id="id_steps-${stepIndex}-contributors">
+    `;
+    container.appendChild(stepDiv);
+    stepIndex++;
+});
+
+document.addEventListener('input', function(event) {
+    if (event.target.classList.contains('contributor-input')) {
+        var input = event.target;
+        var contributors = input.value.split(',');
+        var uniqueContributors = [...new Set(contributors)];
+        input.value = uniqueContributors.join(',');
+    }
+});
+</script>
