@@ -5,9 +5,11 @@ from .models import Process, ProcessStep
 from .process_analysis import analyze_process
 from clique_ratio_analysis.analysis import perform_clique_ratio_analysis
 
+
 def index(request):
     form = ProcessForm()
     return render(request, 'index.html', {'form': form})
+
 
 def submit_process_form(request):
     if request.method == 'POST':
@@ -43,7 +45,13 @@ def submit_process_form(request):
                 bottlenecks, image_path = analyze_process(steps_dict)
 
             if bottlenecks is not None:
-                return JsonResponse({'clique_ratio': bottlenecks, 'image_path': image_path.replace('intake_form/static/', 'static/'), 'steps_data': steps_data})
+                return JsonResponse(
+                    {'clique_ratio': bottlenecks, 'image_path': image_path.replace('intake_form/static/', 'static/'),
+                     'steps_data': steps_data})
             else:
                 return JsonResponse({'error': 'Invalid step data or no steps provided'}, status=400)
     return JsonResponse({'error': 'Invalid form submission'}, status=400)
+
+
+def success_page(request):
+    return render(request, 'success.html')
