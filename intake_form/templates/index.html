@@ -11,6 +11,8 @@
     <form id="process-form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <div id="steps-container"></div>
+        <button type="button" id="add-step">Add Step</button>
         <button type="submit">Submit</button>
     </form>
 
@@ -18,14 +20,33 @@
 
     <script>
         $(document).ready(function() {
+            var stepIndex = 1;
+
+            $('#add-step').on('click', function() {
+                var stepHtml = `
+                    <div class="step">
+                        <label for="steps-${stepIndex}-name">Step Name:</label>
+                        <input type="text" name="steps-${stepIndex}-name" id="steps-${stepIndex}-name">
+                        <label for="steps-${stepIndex}-duration_value">Duration Value:</label>
+                        <input type="text" name="steps-${stepIndex}-duration_value" id="steps-${stepIndex}-duration_value">
+                        <label for="steps-${stepIndex}-duration_unit">Duration Unit:</label>
+                        <input type="text" name="steps-${stepIndex}-duration_unit" id="steps-${stepIndex}-duration_unit">
+                        <label for="steps-${stepIndex}-contributors">Contributors:</label>
+                        <input type="text" name="steps-${stepIndex}-contributors" id="steps-${stepIndex}-contributors">
+                    </div>
+                `;
+                $('#steps-container').append(stepHtml);
+                stepIndex++;
+            });
+
             var ctx = document.getElementById('clique-ratio-chart').getContext('2d');
             var chart = new Chart(ctx, {
-                type: 'line', // or any other type
+                type: 'line',
                 data: {
-                    labels: [], // your labels
+                    labels: [],
                     datasets: [{
                         label: 'Clique Ratio',
-                        data: [], // your data
+                        data: [],
                     }]
                 }
             });
@@ -33,16 +54,15 @@
             $('#process-form').on('submit', function(event) {
                 event.preventDefault();
                 $.ajax({
-                    url: '{% url "submit_process_form" %}', // your form submission URL
+                    url: '{% url "submit_process_form" %}',
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
                         if (response.error) {
                             alert(response.error);
                         } else {
-                            // Update the chart with the new data
-                            chart.data.labels = response.steps_data.map(item => item.name); // adjust as needed
-                            chart.data.datasets[0].data = response.steps_data.map(item => item.clique_ratio); // adjust as needed
+                            chart.data.labels = response.steps_data.map(item => item.name);
+                            chart.data.datasets[0].data = response.steps_data.map(item => item.clique_ratio);
                             chart.update();
                         }
                     }
