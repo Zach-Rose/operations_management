@@ -1,4 +1,5 @@
 import os
+import time
 import matplotlib
 matplotlib.use('Agg')  # Use the Agg backend for non-interactive plotting
 import networkx as nx
@@ -27,7 +28,9 @@ def analyze_process(steps):
     nx.draw_networkx_labels(G, pos, font_size=12, font_color='black', font_weight='bold')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'weight'), font_color='red')
 
-    image_path = os.path.join(output_dir, 'process_diagram.png')
+    # Save the graph with a unique name
+    timestamp = int(time.time())
+    image_path = os.path.join(output_dir, f'process_diagram_{timestamp}.png')
     plt.savefig(image_path, format='PNG')
     plt.close()
 
