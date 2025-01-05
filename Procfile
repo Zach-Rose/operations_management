@@ -1,0 +1,1 @@
+web: gunicorn operations_management.wsgi
