@@ -12,7 +12,7 @@ def index(request):
 def submit_process_form(request):
     if request.method == 'POST':
         process_form = ProcessForm(request.POST)
-        if process_form.is_valid():
+        if (process_form.is_valid()):
             process = process_form.save()
             steps_data = []
             step_index = 1
@@ -26,8 +26,6 @@ def submit_process_form(request):
                 steps_data.append(step_data)
                 step_index += 1
 
-            bottlenecks = None
-            image_path = None
             if steps_data:
                 steps_dict = {}
                 for step_data in steps_data:
@@ -40,12 +38,15 @@ def submit_process_form(request):
                         contributors_text = step_data.get('contributors', '')
                         contributors = [name.strip() for name in contributors_text.split(',')]
                         steps_dict[step.name] = contributors
-                bottlenecks, image_path = analyze_process(steps_dict)
+                bottlenecks, image_path, nodes, edges = analyze_process(steps_dict)
 
-            if bottlenecks is not None:
-                return JsonResponse(
-                    {'clique_ratio': bottlenecks, 'image_path': image_path.replace('intake_form/static/', 'static/'),
-                     'steps_data': steps_data})
+                return JsonResponse({
+                    'clique_ratio': bottlenecks,
+                    'image_path': image_path.replace('intake_form/static/', 'static/'),
+                    'steps_data': steps_data,
+                    'nodes': nodes,
+                    'edges': edges
+                })
             else:
                 return JsonResponse({'error': 'Invalid step data or no steps provided'}, status=400)
     return JsonResponse({'error': 'Invalid form submission'}, status=400)
