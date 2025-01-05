@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <form id="process-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <canvas id="clique-ratio-chart"></canvas>
+
+    <script>
+        $(document).ready(function() {
+            var ctx = document.getElementById('clique-ratio-chart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'line', // or any other type
+                data: {
+                    labels: [], // your labels
+                    datasets: [{
+                        label: 'Clique Ratio',
+                        data: [], // your data
+                    }]
+                }
+            });
+
+            $('#process-form').on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '{% url "submit_process_form" %}', // your form submission URL
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        if (response.error) {
+                            alert(response.error);
+                        } else {
+                            // Update the chart with the new data
+                            chart.data.labels = response.steps_data.map(item => item.name); // adjust as needed
+                            chart.data.datasets[0].data = response.steps_data.map(item => item.clique_ratio); // adjust as needed
+                            chart.update();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
