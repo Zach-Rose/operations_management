@@ -28,7 +28,10 @@ class ProcessStepForm(forms.ModelForm):
         model = ProcessStep
         fields = ['name', 'duration_value', 'duration_unit', 'contributors']
         widgets = {
-            'name': forms.TextInput(attrs={'autocomplete': 'off'})
+            'name': forms.TextInput(attrs={'autocomplete': 'off'}),
+            'duration_value': forms.NumberInput(attrs={'autocomplete': 'off'}),
+            'duration_unit': forms.Select(attrs={'autocomplete': 'off'}),
+            'contributors': forms.TextInput(attrs={'autocomplete': 'off'})
         }
 
 
