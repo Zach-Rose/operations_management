@@ -8,12 +8,9 @@ from clique_ratio_analysis.analysis import perform_clique_ratio_analysis
 
 logger = logging.getLogger(__name__)
 
-
 def index(request):
-    process_form = ProcessForm()
-    step_form = ProcessStepForm()
-    return render(request, 'index.html', {'process_form': process_form, 'step_form': step_form})
-
+    form = ProcessForm()
+    return render(request, 'index.html', {'form': form})
 
 def submit_process_form(request):
     try:
@@ -70,7 +67,6 @@ def submit_process_form(request):
     except Exception as e:
         logger.error(f"Error processing form submission: {e}")
         return JsonResponse({'error': 'Internal server error'}, status=500)
-
 
 def success_page(request):
     return render(request, 'success.html')
