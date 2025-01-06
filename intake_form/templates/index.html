@@ -12,8 +12,8 @@
         {% csrf_token %}
         {{ form.as_p }}
         <div id="steps-container"></div>
-        <p>when adding resources, be sure to add them as comma-separated values (i.e. zach, bob)</p>
-        <p>Duration unit is in minutes/seconds/days</p>
+        <p><b>When adding resources, be sure to add them as comma-separated values (i.e. zach, bob)</b></p>
+        <p><b>Flow unit is in minutes/seconds/days</b></p>
         <button type="button" id="add-step">Add Step</button>
         <button type="submit">Submit</button>
     </form>
@@ -31,7 +31,7 @@
                         <input type="text" name="steps-${stepIndex}-name" id="steps-${stepIndex}-name">
                         <label for="steps-${stepIndex}-duration_value">Flow Time:</label>
                         <input type="text" name="steps-${stepIndex}-duration_value" id="steps-${stepIndex}-duration_value">
-                        <label for="steps-${stepIndex}-duration_unit">Duration Unit:</label>
+                        <label for="steps-${stepIndex}-duration_unit">Flow Unit (default is seconds):</label>
                         <input type="text" name="steps-${stepIndex}-duration_unit" id="steps-${stepIndex}-duration_unit">
                         <label for="steps-${stepIndex}-contributors">Resources:</label>
                         <input type="text" name="steps-${stepIndex}-contributors" id="steps-${stepIndex}-contributors">

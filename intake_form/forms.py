@@ -23,7 +23,7 @@ class ProcessStepForm(forms.ModelForm):
         widget=forms.NumberInput(attrs={'autocomplete': 'off'})
     )
     duration_unit = forms.ChoiceField(
-        label='Flow Time unit (default: seconds)',
+        label='Flow unit',
         choices=[('seconds', 'Seconds'), ('minutes', 'Minutes'), ('days', 'Days')],
         widget=forms.Select(attrs={'autocomplete': 'off'})
     )
