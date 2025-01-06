@@ -9,7 +9,7 @@ class Contributor(models.Model):
 class ProcessStep(models.Model):
     name = models.CharField(max_length=100, default='Unnamed Activity')
     duration_value = models.IntegerField(default=0, verbose_name='Flow Time')
-    duration_unit = models.CharField(max_length=10, default='seconds')
+    duration_unit = models.CharField(max_length=10, default='seconds', verbose_name='Flow Time unit')
     contributors = models.ManyToManyField(Contributor, related_name='steps', verbose_name='Resources')
 
     def __str__(self):
