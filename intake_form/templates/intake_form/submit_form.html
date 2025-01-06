@@ -1,7 +1,6 @@
 <form method="post">
     {% csrf_token %}
     {{ process_form.as_p }}
-    <p>when adding contributors, be sure to add them as comma-separated values (i.e. zach, bob)</p>
     <div id="steps-container">
         <div class="step">
             {{ step_form.name.label_tag }}

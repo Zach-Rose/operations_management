@@ -12,6 +12,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <div id="steps-container"></div>
+        <p>when adding contributors, be sure to add them as comma-separated values (i.e. zach, bob)</p>
         <button type="button" id="add-step">Add Step</button>
         <button type="submit">Submit</button>
     </form>
