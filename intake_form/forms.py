@@ -10,10 +10,7 @@ class ContributorForm(forms.ModelForm):
 
 class ProcessStepForm(forms.ModelForm):
     contributors = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'contributor-input',
-            'autocomplete': 'off'
-        }),
+        widget=forms.TextInput(attrs={'class': 'contributor-input'}),
         help_text='Separate each contributor by a comma and space (e.g., John Doe, Jane Smith)'
     )
     duration_value = forms.IntegerField(
@@ -28,10 +25,10 @@ class ProcessStepForm(forms.ModelForm):
         model = ProcessStep
         fields = ['name', 'duration_value', 'duration_unit', 'contributors']
         widgets = {
-            'name': forms.TextInput(attrs={'autocomplete': 'off'}),
-            'duration_value': forms.NumberInput(attrs={'autocomplete': 'off'}),
-            'duration_unit': forms.Select(attrs={'autocomplete': 'off'}),
-            'contributors': forms.TextInput(attrs={'autocomplete': 'off'})
+            'name': forms.TextInput(),
+            'duration_value': forms.NumberInput(),
+            'duration_unit': forms.Select(),
+            'contributors': forms.TextInput()
         }
 
 

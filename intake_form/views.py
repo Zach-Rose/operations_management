@@ -9,8 +9,9 @@ from clique_ratio_analysis.analysis import perform_clique_ratio_analysis
 logger = logging.getLogger(__name__)
 
 def index(request):
-    form = ProcessForm()
-    return render(request, 'index.html', {'form': form})
+    process_form = ProcessForm()
+    step_form = ProcessStepForm()
+    return render(request, 'index.html', {'process_form': process_form, 'step_form': step_form})
 
 def submit_process_form(request):
     try:
