@@ -5,22 +5,22 @@
         <div class="step">
             {{ step_form.name.label_tag }}
             {{ step_form.name }}
-            {{ step_form.name.help_text }}
+            <small>{{ step_form.name.help_text }}</small>
             {{ step_form.name.errors }}
 
             {{ step_form.duration_value.label_tag }}
             {{ step_form.duration_value }}
-            {{ step_form.duration_value.help_text }}
+            <small>{{ step_form.duration_value.help_text }}</small>
             {{ step_form.duration_value.errors }}
 
             {{ step_form.duration_unit.label_tag }}
             {{ step_form.duration_unit }}
-            {{ step_form.duration_unit.help_text }}
+            <small>{{ step_form.duration_unit.help_text }}</small>
             {{ step_form.duration_unit.errors }}
 
             {{ step_form.contributors.label_tag }}
             {{ step_form.contributors }}
-            {{ step_form.contributors.help_text }}
+            <small>{{ step_form.contributors.help_text }}</small>
             {{ step_form.contributors.errors }}
         </div>
     </div>
