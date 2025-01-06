@@ -42,15 +42,21 @@ def submit_process_form(request):
                             contributors_text = step_data.get('contributors', '')
                             contributors = [name.strip() for name in contributors_text.split(',')]
                             steps_dict[step.name] = contributors
-                    bottlenecks, image_path, nodes, edges = analyze_process(steps_dict)
 
-                    return JsonResponse({
-                        'clique_ratio': bottlenecks,
-                        'image_path': image_path.replace('intake_form/static/', 'static/'),
-                        'steps_data': steps_data,
-                        'nodes': nodes,
-                        'edges': edges
-                    })
+                    logger.info(f"Steps dictionary: {steps_dict}")
+
+                    if steps_dict:
+                        bottlenecks, image_path, nodes, edges = analyze_process(steps_dict)
+                        return JsonResponse({
+                            'clique_ratio': bottlenecks,
+                            'image_path': image_path.replace('intake_form/static/', 'static/'),
+                            'steps_data': steps_data,
+                            'nodes': nodes,
+                            'edges': edges
+                        })
+                    else:
+                        logger.error('Steps dictionary is empty')
+                        return JsonResponse({'error': 'Steps dictionary is empty'}, status=400)
                 else:
                     logger.error('Invalid step data or no steps provided')
                     return JsonResponse({'error': 'Invalid step data or no steps provided'}, status=400)
