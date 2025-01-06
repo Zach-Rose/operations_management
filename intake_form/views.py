@@ -15,6 +15,7 @@ def index(request):
 def submit_process_form(request):
     try:
         if request.method == 'POST':
+            logger.info(f"Request POST data: {request.POST}")
             process_form = ProcessForm(request.POST)
             if process_form.is_valid():
                 process = process_form.save()

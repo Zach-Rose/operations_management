@@ -9,7 +9,10 @@ class ContributorForm(forms.ModelForm):
 
 
 class ProcessStepForm(forms.ModelForm):
-    contributors = forms.CharField(widget=forms.TextInput(attrs={'class': 'contributor-input'}))
+    contributors = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'contributor-input'}),
+        help_text='Separate each contributor by a comma and space (e.g., John Doe, Jane Smith)'
+    )
     duration_value = forms.IntegerField()
     duration_unit = forms.ChoiceField(choices=[('seconds', 'Seconds'), ('minutes', 'Minutes'), ('days', 'Days')])
 

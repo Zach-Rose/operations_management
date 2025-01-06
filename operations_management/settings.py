@@ -28,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['operations-management-cc232c0a8f95.herokuapp.com', 'zacheryrose.com']
+ALLOWED_HOSTS = ['operations-management-cc232c0a8f95.herokuapp.com', 'classwork.zacheryrose.com']
 
 
 # Application definition
