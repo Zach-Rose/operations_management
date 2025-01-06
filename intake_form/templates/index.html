@@ -12,7 +12,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <div id="steps-container"></div>
-        <p>when adding contributors, be sure to add them as comma-separated values (i.e. zach, bob)</p>
+        <p>when adding resources, be sure to add them as comma-separated values (i.e. zach, bob)</p>
         <button type="button" id="add-step">Add Step</button>
         <button type="submit">Submit</button>
     </form>
@@ -26,13 +26,13 @@
             $('#add-step').on('click', function() {
                 var stepHtml = `
                     <div class="step">
-                        <label for="steps-${stepIndex}-name">Step Name:</label>
+                        <label for="steps-${stepIndex}-name">Activity Name:</label>
                         <input type="text" name="steps-${stepIndex}-name" id="steps-${stepIndex}-name">
-                        <label for="steps-${stepIndex}-duration_value">Duration Value:</label>
+                        <label for="steps-${stepIndex}-duration_value">Flow Time:</label>
                         <input type="text" name="steps-${stepIndex}-duration_value" id="steps-${stepIndex}-duration_value">
                         <label for="steps-${stepIndex}-duration_unit">Duration Unit:</label>
                         <input type="text" name="steps-${stepIndex}-duration_unit" id="steps-${stepIndex}-duration_unit">
-                        <label for="steps-${stepIndex}-contributors">Contributors:</label>
+                        <label for="steps-${stepIndex}-contributors">Resources:</label>
                         <input type="text" name="steps-${stepIndex}-contributors" id="steps-${stepIndex}-contributors">
                     </div>
                 `;

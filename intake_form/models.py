@@ -7,10 +7,10 @@ class Contributor(models.Model):
         return self.name
 
 class ProcessStep(models.Model):
-    name = models.CharField(max_length=100, default='Unnamed Step')
-    duration_value = models.IntegerField(default=0)
+    name = models.CharField(max_length=100, default='Unnamed Activity')
+    duration_value = models.IntegerField(default=0, verbose_name='Flow Time')
     duration_unit = models.CharField(max_length=10, default='seconds')
-    contributors = models.ManyToManyField(Contributor, related_name='steps')
+    contributors = models.ManyToManyField(Contributor, related_name='steps', verbose_name='Resources')
 
     def __str__(self):
         return self.name
@@ -18,7 +18,7 @@ class ProcessStep(models.Model):
 class Process(models.Model):
     name = models.CharField(max_length=100, default='Unnamed Process')
     description = models.TextField(default='')
-    ideal_duration = models.DurationField(default='0:00:00')
+    tack_time = models.DurationField(default='0:00:00')
     steps = models.ManyToManyField(ProcessStep, related_name='processes')
 
     def __str__(self):
