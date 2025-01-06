@@ -8,6 +8,9 @@ class ContributorForm(forms.ModelForm):
         fields = ['name']
 
 
+from django import forms
+from .models import ProcessStep
+
 class ProcessStepForm(forms.ModelForm):
     name = forms.CharField(
         label='Activity Name',
@@ -27,16 +30,15 @@ class ProcessStepForm(forms.ModelForm):
         choices=[('seconds', 'Seconds'), ('minutes', 'Minutes'), ('days', 'Days')],
         widget=forms.Select(attrs={'autocomplete': 'off'})
     )
+    steps = forms.CharField(
+        label='Steps',
+        widget=forms.Textarea(attrs={'autocomplete': 'off'}),
+        required=False  # Make the steps field optional
+    )
 
     class Meta:
         model = ProcessStep
-        fields = ['name', 'duration_value', 'duration_unit', 'contributors']
-        widgets = {
-            'name': forms.TextInput(),
-            'duration_value': forms.NumberInput(),
-            'duration_unit': forms.Select(),
-            'contributors': forms.TextInput()
-        }
+        fields = ['name', 'duration_value', 'duration_unit', 'contributors', 'steps']
 
 
 class ProcessForm(forms.ModelForm):
