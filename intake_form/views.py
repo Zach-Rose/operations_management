@@ -28,6 +28,7 @@ def submit_process_form(request):
                         'duration_unit': request.POST.get(f'steps-{step_index}-duration_unit'),
                         'contributors': request.POST.get(f'steps-{step_index}-contributors')
                     }
+                    logger.info(f"Step {step_index} data: {step_data}")
                     steps_data.append(step_data)
                     step_index += 1
 
@@ -43,6 +44,8 @@ def submit_process_form(request):
                             contributors_text = step_data.get('contributors', '')
                             contributors = [name.strip() for name in contributors_text.split(',')]
                             steps_dict[step.name] = contributors
+                        else:
+                            logger.error(f"Invalid step form data: {step_form.errors}")
 
                     logger.info(f"Steps dictionary: {steps_dict}")
 
