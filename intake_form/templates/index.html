@@ -5,33 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Process Form</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.1/cytoscape.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.20.0/cytoscape.min.js"></script>
 </head>
 <body>
+    <h1>Submit Process Form</h1>
     <form id="process-form" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <div id="steps-container"></div>
-        <p><b>When adding resources, be sure to add them as comma-separated values (i.e. zach, bob)</b></p>
-        <p><b>Flow unit is in minutes/seconds/days</b></p>
         <button type="button" id="add-step">Add Step</button>
         <button type="submit">Submit</button>
     </form>
-
+    <p><b>When adding resources, be sure to add them as comma-separated values (i.e. zach, bob)</b></p>
+    <p><b>Flow unit is in minutes/seconds/days</b></p>
+    <div id="error-message" style="color: red;"></div>
     <div id="cy" style="width: 800px; height: 600px;"></div>
 
     <script>
         $(document).ready(function() {
-            var stepIndex = 1;
+            let stepIndex = 1;
 
             $('#add-step').on('click', function() {
-                var stepHtml = `
-                    <div class="step">
+                const stepHtml = `
+                    <div>
                         <label for="steps-${stepIndex}-name">Activity Name:</label>
                         <input type="text" name="steps-${stepIndex}-name" id="steps-${stepIndex}-name">
                         <label for="steps-${stepIndex}-duration_value">Flow Time:</label>
-                        <input type="text" name="steps-${stepIndex}-duration_value" id="steps-${stepIndex}-duration_value">
-                        <label for="steps-${stepIndex}-duration_unit">Flow Unit (default is seconds):</label>
+                        <input type="number" name="steps-${stepIndex}-duration_value" id="steps-${stepIndex}-duration_value">
+                        <label for="steps-${stepIndex}-duration_unit">Flow unit:</label>
                         <input type="text" name="steps-${stepIndex}-duration_unit" id="steps-${stepIndex}-duration_unit">
                         <label for="steps-${stepIndex}-contributors">Resources:</label>
                         <input type="text" name="steps-${stepIndex}-contributors" id="steps-${stepIndex}-contributors">
@@ -49,8 +50,9 @@
                     data: $(this).serialize(),
                     success: function(response) {
                         if (response.error) {
-                            alert(response.error);
+                            $('#error-message').text(response.error);
                         } else {
+                            $('#error-message').text(''); // Clear any previous error messages
                             var cy = cytoscape({
                                 container: document.getElementById('cy'),
                                 elements: {
@@ -83,6 +85,13 @@
                                 }
                             });
                         }
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = 'An error occurred: ' + error;
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = 'An error occurred: ' + xhr.responseJSON.error;
+                        }
+                        $('#error-message').text(errorMessage);
                     }
                 });
             });

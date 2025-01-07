@@ -21,6 +21,7 @@ def submit_process_form(request):
                 process = process_form.save()
                 steps_data = []
                 step_index = 1
+                missing_fields = False
                 while f'steps-{step_index}-name' in request.POST:
                     step_data = {
                         'name': request.POST.get(f'steps-{step_index}-name'),
@@ -28,9 +29,16 @@ def submit_process_form(request):
                         'duration_unit': request.POST.get(f'steps-{step_index}-duration_unit'),
                         'contributors': request.POST.get(f'steps-{step_index}-contributors')
                     }
+                    if not all(step_data.values()):
+                        missing_fields = True
+                        break
                     logger.info(f"Step {step_index} data: {step_data}")
                     steps_data.append(step_data)
                     step_index += 1
+
+                if missing_fields:
+                    logger.error('All fields are required for each step')
+                    return JsonResponse({'error': 'All fields are required for each step'}, status=400)
 
                 if steps_data:
                     steps_dict = {}
